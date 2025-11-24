@@ -1,15 +1,26 @@
 {% extends "base.html" %}
-{% block title %}Index{% endblock %}
+{% block title %}Vendor Profile{% endblock %}
 
 {% block content %}
 <h1>Vendor Profile Completion</h1>
-<form action="{{url_for('vendor.profile_setup')}}" method="POST">
-    <input type="text" name="shop_name" placeholder="Shop Name" required><br>
-    <input type="text" name="gst_number" placeholder="GST Number"><br>
+
+<form action="{{ url_for('vendor.profile_setup') }}" method="POST">
+
+    <input type="text" name="name" placeholder="Your Name" required><br>
+    <input type="email" name="email" placeholder="Email" required><br>
+
+    <input type="text" name="business_name" placeholder="Business / Shop Name" required><br>
     <input type="text" name="business_address" placeholder="Business Address" required><br>
+
+    <input type="text" name="phone_number" placeholder="Phone Number" required><br>
+    <input type="text" name="whatsapp_number" placeholder="WhatsApp Number"><br>
+
+    <input type="text" name="open_duration" placeholder="Business Timings (e.g., 10AM - 8PM)"><br>
+    <input type="text" name="payment_type" placeholder="Payment Type (e.g., UPI, Cash, Card)"><br>
+
+    <input type="number" name="year_of_establishment" placeholder="Year of Establishment (e.g., 2010)"><br>
+
     <button type="submit">Save</button>
 </form>
-
-
 
 {% endblock %}

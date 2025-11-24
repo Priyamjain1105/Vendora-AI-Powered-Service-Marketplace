@@ -12,7 +12,8 @@ def index():
 
 @customer.route('/homepage')
 def vendors():
-    return render_template('customer/vendors.html')
+    vendors = Vendor.query.all()
+    return render_template('customer/vendors.html',vendors = vendors)
 
 @customer.route('/profile_setup',methods=['GET','POST'])
 @login_required

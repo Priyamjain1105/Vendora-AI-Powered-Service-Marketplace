@@ -15,9 +15,20 @@ def profile_setup():
     if request.method == 'GET':
         return render_template('vendor/profile_setup.html')
     
-    shop_name = request.form.get('shop_name')
-    gst_number = request.form.get('gst_number')
+    name = request.form.get('name')
+    email = request.form.get('email')
+    
+    business_name = request.form.get('business_name')
     business_address = request.form.get('business_address')
+    
+    phone_number = request.form.get('phone_number')
+    whatsapp_number = request.form.get('whatsapp_number')
+    
+    open_duration = request.form.get('open_duration')
+    payment_type = request.form.get('payment_type')
+    
+    year_of_establishment = request.form.get('year_of_establishment')
+    
     
     if current_user.vendor_profile:
         flash('Profile already exists','info')
@@ -25,9 +36,17 @@ def profile_setup():
     
     new_profile = Vendor(
         user_id = current_user.uid,
-        shop_name = shop_name,
-        gst_number = gst_number,
-        business_address = business_address
+        name = name,
+        email = email,
+        business_name = business_name,
+        business_address = business_address,
+        phone_number = phone_number,
+        whatsapp_number = whatsapp_number,
+        open_duration = open_duration,
+        payment_type = payment_type,
+        year_of_establishment = year_of_establishment,
+        rating = 0,
+        rater_no = 0
     )
     
     db.session.add(new_profile)
