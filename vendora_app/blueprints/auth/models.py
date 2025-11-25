@@ -13,6 +13,7 @@ class  User(db.Model, UserMixin):
       
       last_role = db.Column(db.String(20))
       
+      name = db.Column(db.String(50))
       customer_profile = db.relationship('Customer', backref='user', uselist=False, cascade="all, delete-orphan")
       vendor_profile = db.relationship('Vendor', backref='user', uselist=False,  cascade="all, delete-orphan")
       
