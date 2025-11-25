@@ -1,6 +1,7 @@
 from vendora_app.app import db
 from flask_login import UserMixin
-
+from sqlalchemy.dialects.sqlite import JSON
+from sqlalchemy.ext.mutable import MutableList
 class  User(db.Model, UserMixin):
       __tablename__   = 'users'
       uid = db.Column(db.Integer, primary_key = True)
@@ -14,6 +15,14 @@ class  User(db.Model, UserMixin):
       
       customer_profile = db.relationship('Customer', backref='user', uselist=False, cascade="all, delete-orphan")
       vendor_profile = db.relationship('Vendor', backref='user', uselist=False,  cascade="all, delete-orphan")
+      
+      # FOR images
+      image_url = db.Column(db.String(500))
+      business_imgs = db.Column(
+        MutableList.as_mutable(JSON), 
+        default=lambda: []
+    )
+      
       
       def __repr__ (self):
           return f'<User: {self.username}, Role: {self.role}>'

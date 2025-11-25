@@ -5,8 +5,14 @@ from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
 import os
 from dotenv import load_dotenv
-load_dotenv()
+import cloudinary
 
+load_dotenv()
+cloudinary.config(
+    cloud_name = os.getenv('c_cloud_name'),
+    api_key    = os.getenv('c_api_key'),
+    api_secret = os.getenv('c_api_secret')
+)
 
 
 db = SQLAlchemy()
