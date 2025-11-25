@@ -9,8 +9,6 @@ auth = Blueprint('auth', __name__, template_folder = 'templates')
 
 
 
-
-
 """
 @auth.route('/')
 def index():
@@ -167,7 +165,9 @@ def show_notes():
             <p>Note added successfully!</p>
             {notes_html}
             <a href="/new_note">Add another note</a> <br>
-            
-            
-            
+                                   
         """
+@auth.route("/upload-profile-image", methods=["GET","POST"])
+def upload_profile_image():
+    if request.method == "GET":
+        return render_template("")
