@@ -14,7 +14,8 @@
 
         <!-- Form Wrapper -->
         <div class="bg-white rounded-3xl shadow-lg p-8">
-            <form action="{{ url_for('vendor.profile_setup') }}" method="POST" class="space-y-6">
+            <form action="{{ url_for('vendor.profile_setup') }}" method="POST" enctype="multipart/form-data"
+                class="space-y-6">
 
                 <!-- Name & Email -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -88,6 +89,17 @@
                     <input type="number" name="year_of_establishment"
                         class="w-full mt-2 p-3 rounded-xl border border-gray-300 focus:border-blue-700 focus:ring-2 focus:ring-blue-200 transition outline-none"
                         placeholder="e.g., 2012">
+                </div>
+
+                <!-- File Input -->
+                <div>
+                    <label class="block text-gray-700 mb-1 font-medium">
+                        Business Image
+                    </label>
+
+                    <input type="file" name="images" accept="image/*" multiple required class="w-full text-gray-700 bg-gray-50 border border-gray-300 
+                              rounded-lg px-4 py-2 file:mr-4 file:py-2 file:px-4 file:rounded-lg 
+                              file:border-0 file:text-white file:bg-blue-600 hover:file:bg-blue-700 cursor-pointer">
                 </div>
 
                 <!-- Submit Button -->

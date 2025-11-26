@@ -24,21 +24,35 @@
                 class="bg-gray-100 text-gray-800 font-medium py-2 px-4 rounded-lg shadow-sm hover:bg-gray-200 transition duration-200">
                 Logout
             </a>
+
             {% if current_user.last_role == 'customer' %}
             <a href="{{ url_for('customer.dashboard') }}">
-                <span
-                    class="bg-primary/10 text-primary font-medium py-2 px-4 rounded-lg shadow-sm hover:bg-primary/20 transition duration-200">
-                    {{ current_user.username }}
-                </span>
+                {% if current_user.profile_img %}
+                <img src="{{ current_user.profile_img }}"
+                    class="w-10 h-10 rounded-full object-cover border border-gray-300 shadow-sm cursor-pointer"
+                    alt="Profile">
+                {% else %}
+                <div
+                    class="w-10 h-10 rounded-full bg-primary/10 text-primary font-medium flex items-center justify-center shadow-sm cursor-pointer">
+                    {{ current_user.username[0]|upper }}
+                </div>
+                {% endif %}
             </a>
             {% else %}
             <a href="{{ url_for('vendor.dashboard') }}">
-                <span
-                    class="bg-primary/10 text-primary font-medium py-2 px-4 rounded-lg shadow-sm hover:bg-primary/20 transition duration-200">
-                    {{ current_user.username }}
-                </span>
+                {% if current_user.profile_img %}
+                <img src="{{ current_user.profile_img }}"
+                    class="w-10 h-10 rounded-full object-cover border border-gray-300 shadow-sm cursor-pointer"
+                    alt="Profile">
+                {% else %}
+                <div
+                    class="w-10 h-10 rounded-full bg-primary/10 text-primary font-medium flex items-center justify-center shadow-sm cursor-pointer">
+                    {{ current_user.username[0]|upper }}
+                </div>
+                {% endif %}
             </a>
             {% endif %}
+
         </div>
     </nav>
 

@@ -10,6 +10,10 @@
             <button id="close-sidebar" class="text-gray-600 hover:text-primary">✕</button>
         </div>
         <nav class="p-6 space-y-3">
+            <a href="{{ url_for('auth.profile_update') }}"
+                class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-primary hover:text-white transition">
+                👤 Profile Update
+            </a>
             {% block sidebar_items %}
             <!-- This block will be filled by each role (customer/vendor) -->
             {% endblock %}

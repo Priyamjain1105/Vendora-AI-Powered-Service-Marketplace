@@ -18,7 +18,7 @@ class  User(db.Model, UserMixin):
       vendor_profile = db.relationship('Vendor', backref='user', uselist=False,  cascade="all, delete-orphan")
       
       # FOR images
-      image_url = db.Column(db.String(500))
+      profile_img = db.Column(db.String(500))
       business_imgs = db.Column(
         MutableList.as_mutable(JSON), 
         default=lambda: []

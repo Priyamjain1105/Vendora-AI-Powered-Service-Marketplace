@@ -2,7 +2,7 @@ from flask import request, render_template, redirect, url_for, Blueprint, flash
 from vendora_app.blueprints.vendor.models import Vendor
 from flask_login import login_user, logout_user, current_user, login_required
 from vendora_app.app import db
-
+from cloudinary.uploader import upload
 vendor = Blueprint('vendor', __name__, template_folder = 'templates')
 
 @vendor.route('/')
@@ -29,6 +29,24 @@ def profile_setup():
     
     year_of_establishment = request.form.get('year_of_establishment')
     
+    
+    # uploading business image
+    files = request.files.getlist("image")
+    uploaded_urls = []
+    index_start = len(current_user.business_imgs)+1
+    print(current_user.uid)
+    for i, file in enumerate(files, start=index_start):
+        result = upload(
+            file,
+            folder=f"vendora/{current_user.uid}/business_img/",
+            public_id=f"img_{str(i)}",
+            overwrite=True
+        )
+        url = result["secure_url"]
+        current_user.business_imgs.append(url)
+        uploaded_urls.append(url)
+    
+    db.session.commit()
     
     if current_user.vendor_profile:
         flash('Profile already exists','info')

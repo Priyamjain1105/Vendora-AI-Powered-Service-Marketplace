@@ -3,7 +3,7 @@ from vendora_app.app import db, bcrypt
 
 from flask_login import login_user, logout_user, current_user, login_required
 from vendora_app.blueprints.auth.models import User, Note
-
+from cloudinary.uploader import upload
 
 auth = Blueprint('auth', __name__, template_folder = 'templates')
 
@@ -167,7 +167,29 @@ def show_notes():
             <a href="/new_note">Add another note</a> <br>
                                    
         """
-@auth.route("/upload-profile-image", methods=["GET","POST"])
-def upload_profile_image():
+@login_required        
+@auth.route("/profile_update", methods=["GET","POST"])
+def profile_update():
     if request.method == "GET":
-        return render_template("")
+        return render_template("auth/profile_update.html")
+    name = request.form.get("name")
+    file = request.files.get("image")
+    
+    
+    current_user.name = name
+    profile_img = None
+    
+    if file:
+        result = upload(
+            file,
+            folder=f"vendora/{current_user.uid}",
+            public_id = "profile_img",
+            overwrite=True
+        )
+        
+        profile_img = result["secure_url"]
+        current_user.profile_img = profile_img
+    db.session.commit()
+    name1 = current_user.name
+    img1 = current_user.profile_img
+    return render_template("auth/profile_update.html", name = name1, img = img1)
