@@ -193,3 +193,15 @@ def profile_update():
     name1 = current_user.name
     img1 = current_user.profile_img
     return render_template("auth/profile_update.html", name = name1, img = img1)
+
+@auth.route('/delete_account', methods=["POST"])
+@login_required
+def delete_account():
+    user = current_user._get_current_object()  
+    
+    logout_user()
+    db.session.delete(user)
+    db.session.commit()
+    session.clear()
+    flash("User Account Deleted Successfully",'Success')
+    return redirect(url_for('customer.vendors'))

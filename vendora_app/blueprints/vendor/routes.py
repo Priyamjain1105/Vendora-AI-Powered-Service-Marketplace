@@ -103,15 +103,26 @@ def profile_update():
     vendor_profile.open_duration = request.form.get('open_duration', vendor_profile.open_duration)
     vendor_profile.payment_type = request.form.get('payment_type', vendor_profile.payment_type)
     vendor_profile.year_of_establishment = request.form.get('year_of_establishment', vendor_profile.year_of_establishment)
-
+     
+    # uploading business image
+    files = request.files.getlist("image")
+    uploaded_urls = []
+    index_start = len(current_user.business_imgs)+1
+    print(current_user.uid)
+    for i, file in enumerate(files, start=index_start):
+        result = upload(
+            file,
+            folder=f"vendora/{current_user.uid}/business_img/",
+            public_id=f"img_{str(i)}",
+            overwrite=True
+        )
+        url = result["secure_url"]
+        current_user.business_imgs.append(url)
+        uploaded_urls.append(url)
     db.session.commit()
 
     flash('Vendor Profile updated successfully!', 'success')
     return redirect(url_for('vendor.dashboard'))
-
-
-
-
 
 @vendor.route('/dashboard')
 @login_required
@@ -132,6 +143,16 @@ def dashboard():
     """
 
 
+@vendor.route('/delete_profile')
+@login_required
+def delete_vendor_profile():
+    vendor_profile = current_user.vendor_profile
+    logout_user()
+    db.session.delete(vendor_profile)
+    current_user.is_vendor = 0
+    db.session.commit()
+    flash('Vendor Profile have me Deleted','Success')
+    return redirect(url_for('auth.login'))
 
 """
 @vendor.route('/dashboard1')
