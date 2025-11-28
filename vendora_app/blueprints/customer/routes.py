@@ -12,8 +12,14 @@ def index():
 
 @customer.route('/homepage')
 def vendors():
-    vendors = Vendor.query.all()
-    return render_template('customer/vendors.html',vendors = vendors)
+    search_query = request.args.get('q', '').strip()  # Get the search input
+    if search_query:
+        # Filter vendors whose business_name contains the search query (case-insensitive)
+        vendors = Vendor.query.filter(Vendor.business_name.ilike(f"%{search_query}%")).all()
+    else:
+        vendors = Vendor.query.all()
+    
+    return render_template('customer/vendors.html', vendors=vendors)
 
 @customer.route('/profile_setup',methods=['GET','POST'])
 @login_required
