@@ -171,12 +171,12 @@ def appointments():
 
 @vendor.route('/analytics')
 def analytics():
-    return render_template('vendor/dashboard.html')
+    return render_template('vendor/analytics.html')
 
 @vendor.route('/reviews')
 def reviews():
-    return render_template('vendor/dashboard.html')
+    return render_template('vendor/reviews.html')
 
 @vendor.route('/support')
 def support():
-    return render_template('vendor/dashboard.html')
+    return render_template('vendor/support.html')
