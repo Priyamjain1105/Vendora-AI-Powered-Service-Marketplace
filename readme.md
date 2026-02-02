@@ -1,4 +1,4 @@
-# Vendora - Complete Documentation
+# Vendora Documentation
 
 ## Table of Contents
 
