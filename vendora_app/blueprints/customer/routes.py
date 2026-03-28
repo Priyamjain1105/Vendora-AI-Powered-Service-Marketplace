@@ -201,7 +201,7 @@ def rate_appointment(appointment_id):
     if review and review.strip():
         try:
             # The API you created expects a JSON: {"text": "your review"}
-            api_url = "https://priyam1105-customer-sentiment-analysis.hf.space/predict"
+            api_url = "https://priyam1105-sentiment-analysis-pro.hf.space/predict"
             response = requests.post(api_url, json={"text": review}, timeout=5)
             
             if response.status_code == 200:
