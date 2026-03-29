@@ -1,137 +1,176 @@
 {% extends "base.html" %}
 
-{% block title %}Appointments{% endblock %}
+{% block title %}Manage Appointments | Vendora{% endblock %}
 
 {% block content %}
+<div class="min-h-screen bg-[#f8fafc] px-4 py-8">
+    <div class="max-w-6xl mx-auto">
 
-<div class="
-container mx-auto max-w-5xl px-4 py-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+            <div>
+                <h1 class="text-3xl font-black text-gray-900 tracking-tight">Appointments</h1>
+                <p class="text-gray-500 font-medium">Review and manage your upcoming service sessions.</p>
+            </div>
+            <div class="flex gap-2">
+                <button
+                    class="bg-white border border-gray-200 text-gray-700 px-4 py-2 rounded-xl text-sm font-bold shadow-sm hover:bg-gray-50">
+                    <i class="fas fa-download mr-2"></i> Export
+                </button>
+            </div>
+        </div>
 
-    <!-- Header -->
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-semibold">Appointments</h1>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+            {% set stats = [
+            {'label': 'Total', 'count': appointments|length, 'color': 'blue', 'icon': 'list-ul'},
+            {'label': 'Confirmed', 'count': appointments | selectattr('status', 'equalto', 'confirmed') | list | length,
+            'color': 'green', 'icon': 'check-circle'},
+            {'label': 'Pending', 'count': appointments | selectattr('status', 'equalto', 'pending') | list | length,
+            'color': 'orange', 'icon': 'clock'},
+            {'label': 'Cancelled', 'count': appointments | selectattr('status', 'equalto', 'cancelled') | list | length,
+            'color': 'red', 'icon': 'times-circle'}
+            ] %}
+
+            {% for stat in stats %}
+            <div class="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm flex items-center gap-4">
+                <div
+                    class="h-12 w-12 bg-{{ stat.color }}-50 text-{{ stat.color }}-500 rounded-2xl flex items-center justify-center text-xl">
+                    <i class="fas fa-{{ stat.icon }}"></i>
+                </div>
+                <div>
+                    <p class="text-xs font-black text-gray-400 uppercase tracking-widest">{{ stat.label }}</p>
+                    <p class="text-2xl font-black text-gray-900">{{ stat.count }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="bg-white rounded-[2.5rem] shadow-xl shadow-blue-900/5 border border-gray-100 overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-gray-50/50 border-b border-gray-100">
+                            <th class="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">
+                                Customer</th>
+                            <th class="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">
+                                Service Details</th>
+                            <th class="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">
+                                Schedule</th>
+                            <th class="px-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Status
+                            </th>
+                            <th
+                                class="px-8 py-5 text-right text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">
+                                Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-50">
+                        {% for a in appointments %}
+                        <tr class="hover:bg-gray-50/50 transition-colors group">
+                            <td class="px-8 py-6">
+                                <div class="flex items-center gap-3">
+                                    <div
+                                        class="h-10 w-10 bg-primary/10 text-primary rounded-full flex items-center justify-center font-bold text-sm">
+                                        ID
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-black text-gray-900">ID: {{ a.customer_id }}</p>
+                                        <p class="text-xs text-gray-400">Recurring Client</p>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td class="px-8 py-6">
+                                <p class="text-sm font-bold text-gray-800">{{ a.service.service_name if a.service else
+                                    'General Consultation' }}</p>
+                                <p class="text-xs text-gray-400 font-medium">Standard Package</p>
+                            </td>
+
+                            <td class="px-8 py-6">
+                                <div class="flex items-center gap-2 text-sm font-bold text-gray-900">
+                                    <i class="far fa-calendar text-primary"></i>
+                                    {{ a.start_time.strftime('%d %b %Y') }}
+                                </div>
+                                <p class="text-xs text-gray-400 mt-1">
+                                    {{ a.start_time.strftime('%I:%M %p') }} - {{ a.end_time.strftime('%I:%M %p') }}
+                                </p>
+                            </td>
+
+                            <td class="px-8 py-6">
+                                {% if a.status == 'pending' %}
+                                <span
+                                    class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-orange-50 text-orange-600 border border-orange-100">
+                                    <span class="h-1.5 w-1.5 rounded-full bg-orange-600 mr-2 animate-pulse"></span>
+                                    Pending
+                                </span>
+                                {% elif a.status == 'confirmed' %}
+                                <span
+                                    class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-green-50 text-green-600 border border-green-100">
+                                    Confirmed
+                                </span>
+                                {% elif a.status == 'completed' %}
+                                <span
+                                    class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-blue-50 text-blue-600 border border-blue-100">
+                                    Completed
+                                </span>
+                                {% elif a.status == 'cancelled' %}
+                                <span
+                                    class="inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest bg-red-50 text-red-600 border border-red-100">
+                                    Cancelled
+                                </span>
+                                {% endif %}
+                            </td>
+
+                            <td class="px-8 py-6 text-right">
+                                <div class="flex justify-end gap-2">
+                                    {% if a.status == 'pending' %}
+                                    <form method="POST" action="{{ url_for('vendor.confirm_appointment', id=a.id) }}">
+                                        <button
+                                            class="bg-gray-900 text-white px-4 py-2 rounded-xl text-xs font-black hover:bg-green-600 transition shadow-sm">
+                                            Confirm
+                                        </button>
+                                    </form>
+                                    {% endif %}
+
+                                    {% if a.status == 'confirmed' %}
+                                    <form method="POST" action="{{ url_for('vendor.complete_appointment', id=a.id) }}">
+                                        <button
+                                            class="bg-primary text-white px-4 py-2 rounded-xl text-xs font-black hover:bg-blue-700 transition shadow-sm">
+                                            Complete
+                                        </button>
+                                    </form>
+                                    {% endif %}
+
+                                    {% if a.status != 'cancelled' and a.status != 'completed' %}
+                                    <form method="POST" action="{{ url_for('vendor.cancel_appointment', id=a.id) }}">
+                                        <button
+                                            class="bg-white border border-red-100 text-red-500 px-4 py-2 rounded-xl text-xs font-bold hover:bg-red-50 transition">
+                                            Cancel
+                                        </button>
+                                    </form>
+                                    {% endif %}
+
+                                    {% if a.status == 'completed' or a.status == 'cancelled' %}
+                                    <button class="text-gray-300 cursor-not-allowed">
+                                        <i class="fas fa-ellipsis-h"></i>
+                                    </button>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            {% if not appointments %}
+            <div class="text-center py-20">
+                <div class="h-20 w-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="far fa-calendar-times text-gray-300 text-3xl"></i>
+                </div>
+                <h3 class="text-xl font-black text-gray-900">No appointments yet</h3>
+                <p class="text-gray-500 font-medium">When customers book your services, they will appear here.</p>
+            </div>
+            {% endif %}
+        </div>
     </div>
-
-    <!-- Stats -->
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
-
-        <div class="bg-white p-4 rounded shadow">
-            <p class="text-gray-500 text-sm">Total</p>
-            <p class="text-xl font-semibold">{{ appointments|length }}</p>
-        </div>
-
-        <div class="bg-white p-4 rounded shadow">
-            <p class="text-gray-500 text-sm">Confirmed</p>
-            <p class="text-xl font-semibold">
-                {{ appointments | selectattr('status', 'equalto', 'confirmed') | list | length }}
-            </p>
-        </div>
-
-        <div class="bg-white p-4 rounded shadow">
-            <p class="text-gray-500 text-sm">Pending</p>
-            <p class="text-xl font-semibold">
-                {{ appointments | selectattr('status', 'equalto', 'pending') | list | length }}
-            </p>
-        </div>
-
-        <div class="bg-white p-4 rounded shadow">
-            <p class="text-gray-500 text-sm">Cancelled</p>
-            <p class="text-xl font-semibold">
-                {{ appointments | selectattr('status', 'equalto', 'cancelled') | list | length }}
-            </p>
-        </div>
-
-    </div>
-
-    <!-- Table -->
-    <div class="bg-white rounded shadow overflow-hidden">
-        <table class="w-full text-sm">
-
-            <thead class="bg-gray-100">
-                <tr>
-                    <th class="px-4 py-3 text-left">#</th>
-                    <th class="px-4 py-3 text-left">Customer</th>
-                    <th class="px-4 py-3 text-left">Time</th>
-                    <th class="px-4 py-3 text-left">Service</th>
-                    <th class="px-4 py-3 text-left">Status</th>
-                    <th class="px-4 py-3 text-right">Actions</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                {% for a in appointments %}
-                <tr class="border-t">
-
-                    <td class="px-4 py-3">{{ loop.index }}</td>
-
-                    <td class="px-4 py-3">
-                        {{ a.customer_id }}
-                    </td>
-
-                    <td class="px-4 py-3">
-                        {{ a.start_time.strftime('%d %b %Y, %I:%M %p') }}
-                        <br>
-                        <span class="text-xs text-gray-500">
-                            to {{ a.end_time.strftime('%I:%M %p') }}
-                        </span>
-                    </td>
-
-                    <td class="px-4 py-3">
-                        {{ a.service.service_name if a.service else '-' }}
-                    </td>
-
-                    <td class="px-4 py-3">
-                        {% if a.status == 'pending' %}
-                        <span class="text-yellow-600 font-medium">Pending</span>
-                        {% elif a.status == 'confirmed' %}
-                        <span class="text-green-600 font-medium">Confirmed</span>
-                        {% elif a.status == 'completed' %}
-                        <span class="text-blue-600 font-medium">Completed</span>
-                        {% elif a.status == 'cancelled' %}
-                        <span class="text-red-600 font-medium">Cancelled</span>
-                        {% endif %}
-                    </td>
-
-                    <td class="px-4 py-3 text-right space-x-2">
-
-                        {% if a.status == 'pending' %}
-                        <!-- Confirm -->
-                        <form method="POST" action="{{ url_for('vendor.confirm_appointment', id=a.id) }}"
-                            class="inline">
-                            <button class="text-green-600 text-sm">
-                                Confirm
-                            </button>
-                        </form>
-                        {% endif %}
-
-                        {% if a.status == 'confirmed' %}
-                        <!-- ✅ Complete -->
-                        <form method="POST" action="{{ url_for('vendor.complete_appointment', id=a.id) }}"
-                            class="inline">
-                            <button class="text-blue-600 text-sm">
-                                Complete
-                            </button>
-                        </form>
-                        {% endif %}
-                        {% if a.status != 'cancelled' %}
-
-                        <!-- Cancel -->
-                        <form method="POST" action="{{ url_for('vendor.cancel_appointment', id=a.id) }}" class="inline">
-                            <button class="text-red-600 text-sm">
-                                Cancel
-                            </button>
-                        </form>
-                        {% endif %}
-
-                    </td>
-
-                </tr>
-                {% endfor %}
-            </tbody>
-
-        </table>
-    </div>
-
 </div>
-
 {% endblock %}

@@ -221,7 +221,7 @@ def rate_appointment(appointment_id):
 
     if vendor:
         old_avg = vendor.rating or 0
-        old_count = vendor.raters or 0
+        old_count = vendor.rater_no or 0
 
         new_count = old_count + 1
         new_avg = ((old_avg * old_count) + rating) / new_count
