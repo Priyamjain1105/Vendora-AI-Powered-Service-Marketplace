@@ -223,6 +223,7 @@ def rate_appointment(appointment_id):
 
 HF_API_URL = "https://priyam1105-vendor-recsys.hf.space/recommend"
 @customer.route('/recommendation')
+@login_required
 def show_recommendation():
     customer_id = current_user.customer_profile.id 
 

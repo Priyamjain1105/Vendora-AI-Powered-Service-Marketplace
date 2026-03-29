@@ -1,4 +1,4 @@
-from flask import request, render_template, redirect, url_for, Blueprint, flash
+from flask import request, render_template, redirect, url_for, Blueprint, flash, abort
 from vendora_app.blueprints.vendor.models import Vendor, Service
 from vendora_app.blueprints.customer.models import Customer
 from vendora_app.blueprints.appointment.models import Appointment
@@ -226,15 +226,37 @@ def delete_service(id):
 @vendor.route('/dashboard')
 @login_required
 def dashboard():
-    if current_user.is_vendor != True:
-        return "Access denied", 403
-    
-    """if current_user.last_role == 'customer':
-        return "Access denied", 403"""
+    if not current_user.is_vendor:
+        abort(403)
     
     vendor = current_user.vendor_profile
-    return render_template('vendor/dashboard.html',vendor=vendor)
+    v_id = vendor.id
 
+    # Calculate Average Rating from the Appointment table
+    # We round it to 1 decimal place for a clean UI
+    avg_rating_query = db.session.query(func.avg(Appointment.rating))\
+        .filter(Appointment.vendor_id == v_id, Appointment.rating.isnot(None))\
+        .scalar()
+    
+    avg_rating = round(float(avg_rating_query), 1) if avg_rating_query else 0.0
+
+    # Quick Stats
+    total_revenue = db.session.query(func.sum(Appointment.service_cost))\
+        .filter(Appointment.vendor_id == v_id, Appointment.status == 'completed').scalar() or 0
+    
+    pending_bookings = Appointment.query.filter_by(vendor_id=v_id, status='pending').count()
+    
+    customer_count = db.session.query(func.count(func.distinct(Appointment.customer_id)))\
+        .filter(Appointment.vendor_id == v_id).scalar() or 0
+
+    return render_template(
+        'vendor/dashboard.html',
+        vendor=vendor,
+        total_revenue=total_revenue,
+        pending_bookings=pending_bookings,
+        customer_count=customer_count,
+        avg_rating=avg_rating
+    )
     """
     Can Access the information using
     <h2>{{ vendor.shop_name }}</h2>
