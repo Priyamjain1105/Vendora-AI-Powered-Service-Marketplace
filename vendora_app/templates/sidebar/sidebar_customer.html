@@ -11,7 +11,8 @@
     class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-primary hover:text-white transition">
     🛍️ Browse Vendors
 </a>
-<a href="#" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-primary hover:text-white transition">
+<a href="{{ url_for('customer.show_appointments') }}"
+    class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-primary hover:text-white transition">
     📅 My Appointments
 </a>
 <a href="{{ url_for('auth.logout') }}"

@@ -216,6 +216,18 @@ def rate_appointment(appointment_id):
     appointment.review = review
     appointment.sentiment = sentiment_label  # Save the predicted sentiment
 
+    # ✅ Get vendor
+    vendor = appointment.vendor  # assuming relationship exists
+
+    if vendor:
+        old_avg = vendor.rating or 0
+        old_count = vendor.raters or 0
+
+        new_count = old_count + 1
+        new_avg = ((old_avg * old_count) + rating) / new_count
+
+        vendor.rating = round(new_avg, 2)
+        vendor.rater_no = new_count
     db.session.commit()
 
     flash("Thank you for your feedback!", "success")
@@ -250,3 +262,10 @@ def show_recommendation():
     except Exception as e:
         print(f"ML API Error: {e}")
         return render_template('customer/recommend.html', vendors=[])
+    
+@customer.route('/appointments')
+@login_required # Ensure the user is logged in
+def show_appointments():
+    # Fetch appointments for the current customer, ordered by newest first
+    appointments = Appointment.query.filter_by(customer_id=current_user.customer_profile.id).order_by(Appointment.start_time.desc()).all()
+    return render_template('customer/appointments.html', appointments=appointments)
