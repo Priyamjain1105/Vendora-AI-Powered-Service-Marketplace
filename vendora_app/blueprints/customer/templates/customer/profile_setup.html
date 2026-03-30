@@ -1,48 +1,67 @@
 {% extends "base.html" %}
 
-{% block title %}Customer Profile | Vendora{% endblock %}
+{% block title %}Complete Your Profile | Vendora{% endblock %}
 
 {% block content %}
-<div class="min-h-screen flex items-center justify-center bg-background px-4 py-12">
-    <div class="w-full max-w-lg bg-surface p-8 sm:p-10 rounded-2xl shadow-lg border border-gray-200">
-        <h1 class="text-3xl font-bold text-gray-900 text-center mb-2">Complete Your Profile</h1>
-        <p class="text-secondary text-center mb-8">
-            Tell us a bit more about yourself to get started with <span
-                class="text-primary font-semibold">Vendora</span>.
-        </p>
+<div class="min-h-screen bg-[#f8fafc] flex flex-col items-center justify-center px-4 py-12 relative overflow-hidden">
 
-        <form action="{{ url_for('customer.profile_setup') }}" method="POST" class="space-y-5">
-            <div>
-                <label for="full_name" class="block text-sm font-medium text-secondary mb-1">Full Name</label>
-                <input type="text" id="full_name" name="full_name" placeholder="John Doe" required
-                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition shadow-sm" />
+    <div class="absolute -top-24 -left-24 w-96 h-96 bg-primary/5 rounded-full filter blur-3xl"></div>
+    <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-blue-600/5 rounded-full filter blur-3xl"></div>
+
+    <div class="w-full max-w-xl relative z-10">
+        <div class="flex items-center justify-center gap-3 mb-8">
+            <div class="h-2 w-12 bg-primary rounded-full"></div>
+            <div class="h-2 w-12 bg-primary rounded-full"></div>
+            <div class="h-2 w-12 bg-gray-200 rounded-full"></div>
+        </div>
+
+        <div class="bg-white rounded-[2.5rem] shadow-2xl shadow-blue-900/5 border border-gray-100 p-8 sm:p-12">
+            <div class="text-center mb-10">
+                <div
+                    class="inline-flex items-center justify-center h-16 w-16 bg-blue-50 text-primary rounded-2xl mb-4 text-2xl">
+                    <i class="fas fa-user-astronaut"></i>
+                </div>
+                <h1 class="text-3xl font-black text-gray-900 tracking-tight mb-2">Final Touches</h1>
+                <p class="text-gray-500 font-medium">Customize your <span class="text-primary font-bold">Vendora</span>
+                    experience.</p>
             </div>
 
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <label for="age" class="block text-sm font-medium text-secondary mb-1">Age</label>
-                    <input type="number" id="age" name="age" placeholder="25" min="1" required
-                        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition shadow-sm" />
-                </div>
-                <div>
-                    <label for="gender" class="block text-sm font-medium text-secondary mb-1">Gender</label>
-                    <select id="gender" name="gender" required
-                        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition shadow-sm bg-white">
-                        <option value="" disabled selected>Select</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Other">Other</option>
-                        <option value="Prefer not to say">Prefer not to say</option>
-                    </select>
-                </div>
-            </div>
+            <form action="{{ url_for('customer.profile_setup') }}" method="POST" class="space-y-6">
 
-            <div class="grid grid-cols-2 gap-4">
-                <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-2 ml-1">Full
+                        Name</label>
+                    <input type="text" name="full_name" placeholder="e.g. John Doe" required
+                        class="w-full px-5 py-4 bg-gray-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-primary focus:ring-0 outline-none transition-all text-gray-700 font-medium">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div>
-                        <label for="city" class="block text-sm font-medium text-secondary mb-1">City</label>
-                        <select id="city" name="city" required
-                            class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition shadow-sm bg-white text-gray-700">
+                        <label
+                            class="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-2 ml-1">Age</label>
+                        <input type="number" name="age" placeholder="25" min="1" required
+                            class="w-full px-5 py-4 bg-gray-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-primary focus:ring-0 outline-none transition-all text-gray-700 font-medium">
+                    </div>
+                    <div>
+                        <label
+                            class="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-2 ml-1">Gender</label>
+                        <select name="gender" required
+                            class="w-full px-5 py-4 bg-gray-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-primary focus:ring-0 outline-none transition-all text-gray-700 font-medium appearance-none">
+                            <option value="" disabled selected>Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                            <option value="Prefer not to say">Prefer not to say</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                        <label
+                            class="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-2 ml-1">City</label>
+                        <select name="city" required
+                            class="w-full px-5 py-4 bg-gray-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-primary focus:ring-0 outline-none transition-all text-gray-700 font-medium appearance-none">
                             <option value="" disabled selected>Select City</option>
                             <option value="Bhopal">Bhopal</option>
                             <option value="Indore">Indore</option>
@@ -50,30 +69,35 @@
                             <option value="Ashta">Ashta</option>
                         </select>
                     </div>
-
+                    <div>
+                        <label
+                            class="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-2 ml-1">Phone
+                            Number</label>
+                        <input type="tel" name="phone" placeholder="+91..." required
+                            class="w-full px-5 py-4 bg-gray-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-primary focus:ring-0 outline-none transition-all text-gray-700 font-medium">
+                    </div>
                 </div>
+
                 <div>
-                    <label for="phone" class="block text-sm font-medium text-secondary mb-1">Phone Number</label>
-                    <input type="tel" id="phone" name="phone" placeholder="+1..." required
-                        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition shadow-sm" />
+                    <label
+                        class="block text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-2 ml-1">Residential
+                        Address</label>
+                    <input type="text" name="address" placeholder="123 Street Name, Area" required
+                        class="w-full px-5 py-4 bg-gray-50 border-2 border-transparent rounded-2xl focus:bg-white focus:border-primary focus:ring-0 outline-none transition-all text-gray-700 font-medium">
                 </div>
-            </div>
 
-            <div>
-                <label for="address" class="block text-sm font-medium text-secondary mb-1">Address</label>
-                <input type="text" id="address" name="address" placeholder="123 Street Name" required
-                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition shadow-sm" />
-            </div>
+                <div class="pt-4">
+                    <button type="submit"
+                        class="w-full py-5 bg-gray-900 text-white rounded-2xl font-black text-lg hover:bg-primary transition shadow-xl shadow-blue-900/10 transform active:scale-[0.98]">
+                        Complete Setup →
+                    </button>
+                </div>
+            </form>
 
-            <button type="submit"
-                class="w-full py-3 bg-primary text-white font-semibold rounded-lg shadow-md hover:bg-blue-800 transition duration-200">
-                Save Profile
-            </button>
-        </form>
-
-        <p class="text-center text-sm text-secondary mt-8">
-            You can always update your profile later in your account settings.
-        </p>
+            <p class="text-center text-[11px] text-gray-400 font-bold uppercase tracking-widest mt-10">
+                <i class="fas fa-lock mr-1"></i> Your data is encrypted and secure
+            </p>
+        </div>
     </div>
 </div>
 {% endblock %}

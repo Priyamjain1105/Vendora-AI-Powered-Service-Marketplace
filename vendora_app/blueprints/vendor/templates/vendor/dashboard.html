@@ -1,104 +1,112 @@
 {% extends "base.html" %}
-{% block title %}Vendor Dashboard{% endblock %}
+{% block title %}Vendor Dashboard | Vendora{% endblock %}
 
 {% block content %}
-<div class="bg-slate-50 min-h-screen py-12">
-    <div class="container mx-auto max-w-5xl px-6">
+<div class="bg-[#F8FAFC] min-h-screen py-10">
+    <div class="container mx-auto max-w-6xl px-6">
 
-        <div class="mb-8">
-            <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">
-                Welcome back, {{ current_user.vendor_profile.name.split(' ')[0] }}!
-            </h1>
-            <p class="text-slate-500 font-medium">Here's how your business is performing today.</p>
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+            <div>
+                <div
+                    class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-600 text-white text-[10px] font-black uppercase tracking-[0.2em] mb-4 shadow-lg shadow-indigo-200">
+                    <i class="fas fa-id-badge"></i>
+                    Vendor Dashboard
+                </div>
+                <h1 class="text-4xl font-black text-slate-900 tracking-tight">
+                    Welcome back, {{ current_user.vendor_profile.name.split(' ')[0] }}! ✨
+                </h1>
+                <p class="text-slate-500 font-medium mt-1">Manage your services, track earnings, and grow your business.
+                </p>
+            </div>
+
+            <div class="flex gap-3">
+                <a href="{{ url_for('auth.logout') }}"
+                    class="bg-white border border-slate-200 text-slate-600 px-5 py-2.5 rounded-2xl font-bold text-sm hover:bg-red-50 hover:text-red-600 transition shadow-sm">
+                    Logout
+                </a>
+            </div>
         </div>
 
-        <div class="bg-white shadow-sm rounded-[2.5rem] p-8 mb-8 border border-slate-200 overflow-hidden relative">
-            <div class="absolute top-0 right-0 -mt-4 -mr-4 w-32 h-32 bg-blue-50 rounded-full blur-3xl opacity-60"></div>
+        <div
+            class="bg-white shadow-xl shadow-slate-200/50 rounded-[2.5rem] p-8 mb-10 border border-white overflow-hidden relative">
+            <div class="absolute top-0 right-0 -mt-10 -mr-10 w-64 h-64 bg-indigo-50 rounded-full blur-3xl opacity-50">
+            </div>
 
             <div class="relative flex flex-col lg:flex-row items-center gap-8">
                 <div class="relative">
                     <div
-                        class="bg-gradient-to-br from-indigo-600 to-blue-700 text-white h-24 w-24 flex items-center justify-center rounded-[2rem] text-3xl font-bold shadow-xl shadow-blue-100">
+                        class="bg-gray-900 text-white h-28 w-28 flex items-center justify-center rounded-[2.2rem] text-4xl font-black shadow-2xl">
                         {{ current_user.vendor_profile.name[0] }}
+                    </div>
+                    <div
+                        class="absolute -bottom-1 -right-1 h-7 w-7 bg-emerald-500 border-4 border-white rounded-full shadow-sm">
                     </div>
                 </div>
 
                 <div class="flex-1 text-center lg:text-left">
-                    <h2 class="text-2xl font-black text-slate-900 mb-2">
+                    <h2 class="text-3xl font-black text-slate-900 mb-2 tracking-tight">
                         {{ current_user.vendor_profile.business_name }}
                     </h2>
                     <div
-                        class="flex flex-wrap justify-center lg:justify-start gap-5 text-sm font-medium text-slate-500">
-                        <span class="flex items-center gap-1.5">
+                        class="flex flex-wrap justify-center lg:justify-start gap-5 text-sm font-bold text-slate-400 uppercase tracking-wide">
+                        <span class="flex items-center gap-2">
                             <i class="fas fa-map-marker-alt text-indigo-500"></i> {{
                             current_user.vendor_profile.business_address }}
                         </span>
-                        <span class="flex items-center gap-1.5">
+                        <span class="flex items-center gap-2">
                             <i class="fas fa-clock text-indigo-500"></i> {{ current_user.vendor_profile.open_duration or
-                            "Closed" }}
+                            "Standard Hours" }}
                         </span>
                     </div>
                 </div>
 
-                <div class="bg-slate-50 px-6 py-4 rounded-3xl border border-slate-100 text-center min-w-[130px]">
-                    <p class="text-2xl font-black text-indigo-600 mb-1">
-                        {{ avg_rating }}
-                    </p>
-                    <div class="flex justify-center text-amber-400 mb-1">
-                        {% for i in range(avg_rating|int) %}
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
-                            <path
-                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                        {% endfor %}
+                <div class="bg-slate-50 px-8 py-5 rounded-[2rem] border border-slate-100 text-center min-w-[150px]">
+                    <p class="text-3xl font-black text-indigo-600 mb-1 leading-none">{{ avg_rating or '0.0' }}</p>
+                    <div class="flex justify-center text-amber-400 mb-2">
+                        <i class="fas fa-star text-xs"></i>
+                        <i class="fas fa-star text-xs"></i>
+                        <i class="fas fa-star text-xs"></i>
+                        <i class="fas fa-star text-xs"></i>
+                        <i class="fas fa-star text-xs"></i>
                     </div>
-                    <p class="text-[10px] text-slate-400 uppercase font-black tracking-widest">
-                        {{ current_user.vendor_profile.rater_no or 0 }} Reviews
+                    <p class="text-[10px] text-slate-400 uppercase font-black tracking-[0.15em]">
+                        {{ current_user.vendor_profile.rater_no or 0 }} Verified Reviews
                     </p>
                 </div>
             </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-            <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-4">
-                <div class="bg-emerald-50 text-emerald-600 p-3.5 rounded-2xl">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
+            <div class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm flex items-center gap-5">
+                <div
+                    class="bg-emerald-50 text-emerald-600 h-14 w-14 rounded-2xl flex items-center justify-center text-2xl shadow-inner">
+                    <i class="fas fa-wallet"></i>
                 </div>
                 <div>
-                    <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Total Earnings</p>
-                    <h3 class="text-xl font-black text-slate-900">₹{{ "{:,}".format(total_revenue) }}</h3>
+                    <p class="text-slate-400 text-[10px] font-black uppercase tracking-widest">Total Earnings</p>
+                    <h3 class="text-2xl font-black text-slate-900">₹{{ "{:,}".format(total_revenue or 0) }}</h3>
                 </div>
             </div>
 
-            <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-4">
-                <div class="bg-amber-50 text-amber-600 p-3.5 rounded-2xl">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
+            <div class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm flex items-center gap-5">
+                <div
+                    class="bg-orange-50 text-orange-500 h-14 w-14 rounded-2xl flex items-center justify-center text-2xl shadow-inner">
+                    <i class="fas fa-tasks"></i>
                 </div>
                 <div>
-                    <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Pending Tasks</p>
-                    <h3 class="text-xl font-black text-slate-900">{{ pending_bookings }}</h3>
+                    <p class="text-slate-400 text-[10px] font-black uppercase tracking-widest">Pending Tasks</p>
+                    <h3 class="text-2xl font-black text-slate-900">{{ pending_bookings or 0 }}</h3>
                 </div>
             </div>
 
-            <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-4">
-                <div class="bg-blue-50 text-blue-600 p-3.5 rounded-2xl">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0" />
-                    </svg>
+            <div class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm flex items-center gap-5">
+                <div
+                    class="bg-blue-50 text-blue-600 h-14 w-14 rounded-2xl flex items-center justify-center text-2xl shadow-inner">
+                    <i class="fas fa-users"></i>
                 </div>
                 <div>
-                    <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider">Total Customers</p>
-                    <h3 class="text-xl font-black text-slate-900">{{ customer_count }}</h3>
+                    <p class="text-slate-400 text-[10px] font-black uppercase tracking-widest">Total Customers</p>
+                    <h3 class="text-2xl font-black text-slate-900">{{ customer_count or 0 }}</h3>
                 </div>
             </div>
         </div>
@@ -106,89 +114,69 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
             <a href="{{ url_for('vendor.profile_update') }}"
-                class="group bg-white rounded-[2rem] p-8 border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                class="group bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
                 <div
-                    class="bg-blue-50 text-blue-600 p-4 rounded-2xl w-14 h-14 flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                    </svg>
+                    class="bg-blue-50 text-blue-600 h-16 w-16 rounded-[1.5rem] flex items-center justify-center mb-6 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-md">
+                    <i class="fas fa-store text-2xl"></i>
                 </div>
-                <h3 class="text-xl font-bold text-slate-800 mb-1">Business Profile</h3>
-                <p class="text-slate-500 text-sm leading-relaxed">Manage business details, address, and branding.</p>
+                <h3 class="text-xl font-black text-slate-800 mb-2">Business Profile</h3>
+                <p class="text-slate-500 text-sm font-medium leading-relaxed">Update your shop name, logo, address, and
+                    operation hours.</p>
             </a>
 
             <a href="{{ url_for('vendor.services') }}"
-                class="group bg-white rounded-[2rem] p-8 border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                class="group bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
                 <div
-                    class="bg-orange-50 text-orange-600 p-4 rounded-2xl w-14 h-14 flex items-center justify-center mb-6 group-hover:bg-orange-600 group-hover:text-white transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                    </svg>
+                    class="bg-orange-50 text-orange-600 h-16 w-16 rounded-[1.5rem] flex items-center justify-center mb-6 group-hover:bg-orange-600 group-hover:text-white transition-all shadow-md">
+                    <i class="fas fa-concierge-bell text-2xl"></i>
                 </div>
-                <h3 class="text-xl font-bold text-slate-800 mb-1">My Services</h3>
-                <p class="text-slate-500 text-sm leading-relaxed">Update your price list, durations, and service types.
-                </p>
+                <h3 class="text-xl font-black text-slate-800 mb-2">My Services</h3>
+                <p class="text-slate-500 text-sm font-medium leading-relaxed">Customize your service catalog, prices,
+                    and time durations.</p>
             </a>
 
             <a href="{{ url_for('vendor.appointments') }}"
-                class="group bg-white rounded-[2rem] p-8 border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                class="group bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
                 <div
-                    class="bg-emerald-50 text-emerald-600 p-4 rounded-2xl w-14 h-14 flex items-center justify-center mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
+                    class="bg-emerald-50 text-emerald-600 h-16 w-16 rounded-[1.5rem] flex items-center justify-center mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-all shadow-md">
+                    <i class="fas fa-calendar-check text-2xl"></i>
                 </div>
-                <h3 class="text-xl font-bold text-slate-800 mb-1">Bookings</h3>
-                <p class="text-slate-500 text-sm leading-relaxed">Accept or decline requests and manage your schedule.
-                </p>
+                <h3 class="text-xl font-black text-slate-800 mb-2">Appointments</h3>
+                <p class="text-slate-500 text-sm font-medium leading-relaxed">Manage your schedule, confirm bookings,
+                    and track client history.</p>
             </a>
 
             <a href="{{ url_for('vendor.analytics') }}"
-                class="group bg-white rounded-[2rem] p-8 border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                class="group bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
                 <div
-                    class="bg-indigo-50 text-indigo-600 p-4 rounded-2xl w-14 h-14 flex items-center justify-center mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2" />
-                    </svg>
+                    class="bg-indigo-50 text-indigo-600 h-16 w-16 rounded-[1.5rem] flex items-center justify-center mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-all shadow-md">
+                    <i class="fas fa-chart-line text-2xl"></i>
                 </div>
-                <h3 class="text-xl font-bold text-slate-800 mb-1">Business Insights</h3>
-                <p class="text-slate-500 text-sm leading-relaxed">Deep dive into earnings, demographics, and trends.</p>
+                <h3 class="text-xl font-black text-slate-800 mb-2">Business Insights</h3>
+                <p class="text-slate-500 text-sm font-medium leading-relaxed">Analyze your revenue growth and customer
+                    retention trends.</p>
             </a>
 
             <a href="{{ url_for('vendor.reviews') }}"
-                class="group bg-white rounded-[2rem] p-8 border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                class="group bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
                 <div
-                    class="bg-rose-50 text-rose-600 p-4 rounded-2xl w-14 h-14 flex items-center justify-center mb-6 group-hover:bg-rose-600 group-hover:text-white transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
-                    </svg>
+                    class="bg-rose-50 text-rose-600 h-16 w-16 rounded-[1.5rem] flex items-center justify-center mb-6 group-hover:bg-rose-600 group-hover:text-white transition-all shadow-md">
+                    <i class="fas fa-star-half-alt text-2xl"></i>
                 </div>
-                <h3 class="text-xl font-bold text-slate-800 mb-1">Customer Reviews</h3>
-                <p class="text-slate-500 text-sm leading-relaxed">Monitor your reputation and see customer feedback.</p>
+                <h3 class="text-xl font-black text-slate-800 mb-2">Customer Reviews</h3>
+                <p class="text-slate-500 text-sm font-medium leading-relaxed">See what clients are saying and manage
+                    your online reputation.</p>
             </a>
 
             <a href="{{ url_for('vendor.support') }}"
-                class="group bg-white rounded-[2rem] p-8 border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                class="group bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
                 <div
-                    class="bg-slate-100 text-slate-600 p-4 rounded-2xl w-14 h-14 flex items-center justify-center mb-6 group-hover:bg-slate-800 group-hover:text-white transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0" />
-                    </svg>
+                    class="bg-slate-100 text-slate-600 h-16 w-16 rounded-[1.5rem] flex items-center justify-center mb-6 group-hover:bg-slate-900 group-hover:text-white transition-all shadow-md">
+                    <i class="fas fa-headset text-2xl"></i>
                 </div>
-                <h3 class="text-xl font-bold text-slate-800 mb-1">Help Center</h3>
-                <p class="text-slate-500 text-sm leading-relaxed">Reach out for support or check our guidebooks.</p>
+                <h3 class="text-xl font-black text-slate-800 mb-2">Help Center</h3>
+                <p class="text-slate-500 text-sm font-medium leading-relaxed">Access tutorials or contact our team for
+                    technical assistance.</p>
             </a>
 
         </div>
