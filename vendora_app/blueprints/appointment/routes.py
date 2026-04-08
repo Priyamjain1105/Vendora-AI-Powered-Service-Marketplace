@@ -76,7 +76,7 @@ def book_service(service_id):
         db.session.commit()
         flash('Your Slot is Booked','Success')
         return redirect(
-            url_for('customer.vendor_details', vendor_id=service.vendor_id)
+            url_for('customer.show_appointments')
         )
 
     # ✅ GET request → generate slots

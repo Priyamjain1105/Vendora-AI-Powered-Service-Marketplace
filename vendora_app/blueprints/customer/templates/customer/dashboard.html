@@ -71,7 +71,7 @@
                         </div>
                     </div>
 
-                    <button
+                    <button type="button" onclick=location.href="{{ url_for('auth.profile_update') }}"
                         class="w-full mt-6 py-3 text-sm font-bold text-blue-700 bg-blue-50 rounded-2xl hover:bg-blue-100 transition">
                         Update Settings
                     </button>
@@ -184,7 +184,7 @@
                     <div class="grid sm:grid-cols-2 gap-4">
 
                         {% for v in vendors[:2] %}
-                        <div
+                        <a href="{{ url_for('customer.vendor_details', vendor_id=v.id) }}"
                             class="bg-white p-5 rounded-3xl border border-gray-100 flex items-center gap-4 hover:shadow-lg hover:-translate-y-1 transition cursor-pointer">
 
                             <div class="h-16 w-16 bg-gray-50 rounded-2xl overflow-hidden">
@@ -202,7 +202,7 @@
                             </div>
 
                             <i class="fas fa-chevron-right text-gray-300"></i>
-                        </div>
+                        </a>
                         {% endfor %}
 
                     </div>
